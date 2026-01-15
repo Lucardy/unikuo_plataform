@@ -26,35 +26,38 @@ unikuo_plataform/
 - Docker y Docker Compose - Para producción y despliegue
 - Git - Para control de versiones
 
-## 🛠️ Instalación
+## ⚡ Inicio Rápido
 
-### Opción 1: Desarrollo Local (Sin Docker)
+**📖 Para instrucciones detalladas, ver: [INICIO_RAPIDO.md](./INICIO_RAPIDO.md)**
 
-#### Frontend
+### Desarrollo Local
+
+**Con Docker (Recomendado):**
 ```bash
-cd frontend
-npm install
-npm run dev
+docker compose up -d
+# Acceder a: http://localhost
 ```
 
-#### Backend
+**Sin Docker:**
 ```bash
-cd backend
-npm install
-npm run dev
+# Terminal 1 - Backend
+cd backend && npm install && npm run dev
+
+# Terminal 2 - Frontend  
+cd frontend && npm install && npm run dev
 ```
 
-### Opción 2: Con Docker (Recomendado para Producción)
-
+### Verificar en VPS
 ```bash
-# Copiar variables de entorno
-cp .env.example .env
-
-# Editar .env con tus configuraciones
-# Luego construir y ejecutar
-docker-compose build
-docker-compose up -d
+ssh root@89.117.33.122
+cd /root/unikuo_plataform
+docker compose ps
+# Acceder a: http://89.117.33.122
 ```
+
+## 🛠️ Instalación Completa
+
+Ver [INICIO_RAPIDO.md](./INICIO_RAPIDO.md) para instrucciones detalladas.
 
 ## 🏃 Desarrollo Local
 

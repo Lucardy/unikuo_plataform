@@ -1,0 +1,102 @@
+# Docker Compose para Desarrollo con Hot Reload
+# Usar con: docker compose -f docker-compose.dev.yml up -d
+
+services:
+  # Backend - API Node.js (con hot reload)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: unikuo-backend-dev
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - API_URL=${API_URL:-http://localhost:3000}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5173}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
+    env_file:
+      - .env
+    volumes:
+      # Montar código fuente para hot reload
+      - ./backend/src:/app/src
+      - ./backend/logs:/app/logs
+      # Excluir node_modules (usar los del contenedor)
+      - /app/node_modules
+    command: npm run dev  # Usar modo desarrollo con --watch
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - unikuo-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/test/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend - React + Vite (con hot reload)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+      args:
+        - VITE_API_URL=${API_URL:-http://localhost:3000}
+    container_name: unikuo-frontend-dev
+    ports:
+      - "5173:5173"  # Puerto de desarrollo de Vite (fijo para desarrollo)
+    environment:
+      - VITE_API_URL=${API_URL:-http://localhost:3000}
+    volumes:
+      # Montar código fuente para hot reload
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+      - ./frontend/tsconfig.app.json:/app/tsconfig.app.json
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json
+      - ./frontend/package.json:/app/package.json
+      # Excluir node_modules (usar los del contenedor)
+      - /app/node_modules
+    command: npm run dev -- --host 0.0.0.0  # Modo desarrollo de Vite
+    depends_on:
+      backend:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - unikuo-network
+
+  # Base de datos PostgreSQL (igual que producción)
+  database:
+    image: postgres:16-alpine
+    container_name: unikuo-database-dev
+    environment:
+      - POSTGRES_DB=${DB_NAME:-unikuo_plataform}
+      - POSTGRES_USER=${DB_USER:-unikuo_user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-unikuo_password}
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - postgres-data-dev:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    networks:
+      - unikuo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-unikuo_user} -d ${DB_NAME:-unikuo_plataform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  unikuo-network:
+    driver: bridge
+
+volumes:
+  postgres-data-dev:

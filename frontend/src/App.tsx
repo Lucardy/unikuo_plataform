@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Unikuo Platform</h1>
+        <h1>Unikuo Platform HOLAB</h1>
         <p>Plataforma para crear tiendas online</p>
       </header>
       
