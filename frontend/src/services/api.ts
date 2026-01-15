@@ -80,6 +80,20 @@ class ApiService {
   async healthCheck(): Promise<ApiResponse> {
     return this.get('/api/test/health');
   }
+
+  /**
+   * Test de conexión con la base de datos
+   */
+  async testDatabase(): Promise<ApiResponse> {
+    return this.get('/api/database/test');
+  }
+
+  /**
+   * Obtener datos de prueba de la base de datos
+   */
+  async getDatabaseData(): Promise<ApiResponse> {
+    return this.get('/api/database/data');
+  }
 }
 
 // Exportar una instancia única del servicio

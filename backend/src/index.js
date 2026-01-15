@@ -2,6 +2,7 @@ import express from 'express';
 import corsMiddleware from './middleware/cors.js';
 import config from './config/config.js';
 import testRoutes from './routes/test.routes.js';
+import databaseRoutes from './routes/database.routes.js';
 
 const app = express();
 
@@ -20,6 +21,7 @@ if (config.nodeEnv === 'development') {
 
 // Rutas
 app.use('/api/test', testRoutes);
+app.use('/api/database', databaseRoutes);
 
 // Ruta raíz
 app.get('/', (req, res) => {
@@ -30,6 +32,7 @@ app.get('/', (req, res) => {
     endpoints: {
       test: '/api/test',
       health: '/api/test/health',
+      database: '/api/database/test',
     },
   });
 });

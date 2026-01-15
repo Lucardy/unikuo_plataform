@@ -55,6 +55,48 @@ const TestConnection = () => {
     }
   };
 
+  const handleTestDatabase = async () => {
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const response = await apiService.testDatabase();
+      setResult({
+        success: response.success,
+        message: response.message || 'Prueba de base de datos',
+        data: response,
+      });
+    } catch (error: any) {
+      setResult({
+        success: false,
+        error: error.message || 'Error al conectar con la base de datos',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGetDatabaseData = async () => {
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const response = await apiService.getDatabaseData();
+      setResult({
+        success: response.success,
+        message: response.message || 'Datos obtenidos de la base de datos',
+        data: response.data,
+      });
+    } catch (error: any) {
+      setResult({
+        success: false,
+        error: error.message || 'Error al obtener datos de la base de datos',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="test-connection">
       <h2>Prueba de Conexión con el Backend</h2>
@@ -74,6 +116,22 @@ const TestConnection = () => {
           className="test-connection__button"
         >
           {loading ? 'Verificando...' : 'Health Check'}
+        </button>
+
+        <button 
+          onClick={handleTestDatabase} 
+          disabled={loading}
+          className="test-connection__button"
+        >
+          {loading ? 'Probando...' : 'Probar Base de Datos'}
+        </button>
+
+        <button 
+          onClick={handleGetDatabaseData} 
+          disabled={loading}
+          className="test-connection__button"
+        >
+          {loading ? 'Obteniendo...' : 'Obtener Datos DB'}
         </button>
       </div>
 
@@ -108,6 +166,8 @@ const TestConnection = () => {
           <li>Backend URL: <code>{import.meta.env.VITE_API_URL || 'http://localhost:3000'}</code></li>
           <li>Endpoint de prueba: <code>/api/test</code></li>
           <li>Health check: <code>/api/test/health</code></li>
+          <li>Test base de datos: <code>/api/database/test</code></li>
+          <li>Datos de prueba: <code>/api/database/data</code></li>
         </ul>
       </div>
     </div>

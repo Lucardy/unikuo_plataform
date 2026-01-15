@@ -22,13 +22,14 @@ const config = {
         'http://127.0.0.1:5174',
       ],
 
-  // Base de datos (para más adelante)
-  // database: {
-  //   host: process.env.DB_HOST || 'localhost',
-  //   name: process.env.DB_NAME || 'unikuo_plataform',
-  //   user: process.env.DB_USER || 'root',
-  //   password: process.env.DB_PASSWORD || '',
-  // },
+  // Base de datos PostgreSQL
+  database: {
+    host: process.env.DB_HOST || 'database',
+    port: process.env.DB_PORT || 5432,
+    name: process.env.DB_NAME || 'unikuo_plataform',
+    user: process.env.DB_USER || 'unikuo_user',
+    password: process.env.DB_PASSWORD || 'unikuo_password',
+  },
 };
 
 export default config;
