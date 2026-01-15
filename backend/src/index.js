@@ -3,6 +3,7 @@ import corsMiddleware from './middleware/cors.js';
 import config from './config/config.js';
 import testRoutes from './routes/test.routes.js';
 import databaseRoutes from './routes/database.routes.js';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 
@@ -22,6 +23,7 @@ if (config.nodeEnv === 'development') {
 // Rutas
 app.use('/api/test', testRoutes);
 app.use('/api/database', databaseRoutes);
+app.use('/api/auth', authRoutes);
 
 // Ruta raíz
 app.get('/', (req, res) => {
@@ -33,6 +35,12 @@ app.get('/', (req, res) => {
       test: '/api/test',
       health: '/api/test/health',
       database: '/api/database/test',
+      auth: {
+        register: '/api/auth/register',
+        login: '/api/auth/login',
+        me: '/api/auth/me',
+        roles: '/api/auth/roles',
+      },
     },
   });
 });
