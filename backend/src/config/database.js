@@ -7,13 +7,13 @@ dotenv.config();
 // Configuración de la conexión a PostgreSQL
 const pool = new Pool({
   host: process.env.DB_HOST || 'database',
-  port: process.env.DB_PORT || 5432,
+  port: parseInt(process.env.DB_PORT) || 5432,
   database: process.env.DB_NAME || 'unikuo_plataform',
   user: process.env.DB_USER || 'unikuo_user',
   password: process.env.DB_PASSWORD || 'unikuo_password',
   max: 20, // Máximo de conexiones en el pool
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 10000, // Aumentado a 10 segundos
 });
 
 // Manejo de errores del pool
