@@ -11,6 +11,7 @@ lerna-debug.log*
 .env
 .env.local
 .env.*.local
+!.env.example
 
 node_modules
 dist
@@ -27,3 +28,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Database backups
+database/backups/*.sql
+!database/backups/.gitkeep

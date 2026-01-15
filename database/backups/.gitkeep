@@ -1,0 +1,2 @@
+# Esta carpeta contiene los backups de la base de datos
+# Los archivos de backup NO se suben a Git (están en .gitignore)

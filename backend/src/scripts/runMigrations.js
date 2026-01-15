@@ -4,8 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-// Cargar variables de entorno
-dotenv.config();
+// Cargar variables de entorno (.env.local tiene prioridad si existe)
+dotenv.config({ path: '.env.local' });
+dotenv.config(); // .env como fallback
 
 const { Pool } = pg;
 const __filename = fileURLToPath(import.meta.url);
@@ -96,6 +97,19 @@ function getMigrationFiles() {
 async function runMigrations() {
   try {
     console.log('🚀 Iniciando migraciones de base de datos...\n');
+    
+    // Detectar si estamos en producción (conectando a VPS remoto)
+    const isProduction = process.env.DB_HOST && 
+                         process.env.DB_HOST !== 'database' && 
+                         process.env.DB_HOST !== 'localhost' &&
+                         !process.env.DB_HOST.includes('127.0.0.1');
+    
+    if (isProduction) {
+      console.log('⚠️  ADVERTENCIA: Estás conectado a una base de datos remota (producción)');
+      console.log(`   Host: ${process.env.DB_HOST}`);
+      console.log('   Se recomienda hacer backup antes de continuar.\n');
+      console.log('   Ejecuta: npm run backup\n');
+    }
     
     // Asegurar que existe la tabla de migraciones
     await ensureMigrationsTable();

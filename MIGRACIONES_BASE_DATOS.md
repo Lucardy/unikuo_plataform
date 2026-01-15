@@ -250,6 +250,61 @@ Si ya tienes una base de datos con tablas creadas por `init.sql`:
 3. Solo registrará la migración como ejecutada
 4. No duplicará tablas (usa `IF NOT EXISTS`)
 
+## 🛡️ Seguridad: Backups Antes de Migraciones
+
+### Hacer Backup Automático
+
+Antes de ejecutar migraciones en producción, haz backup:
+
+```bash
+# Opción 1: Backup manual
+npm run backup
+
+# Opción 2: Backup + Migración (recomendado)
+npm run migrate:safe
+```
+
+Los backups se guardan en `database/backups/` con timestamp.
+
+### Restaurar desde Backup
+
+Si algo sale mal, puedes restaurar:
+
+```bash
+# Ver backups disponibles
+ls database/backups/
+
+# Restaurar (ejemplo)
+docker compose exec database psql -U unikuo_user -d unikuo_plataform < database/backups/backup-2026-01-15T10-30-00.sql
+```
+
+## ⚠️ Trabajando con Datos de Producción
+
+### Estrategia Recomendada
+
+1. **Desarrollo Normal**: BD local
+   - Trabajas sin miedo
+   - Experimentas libremente
+
+2. **Verificar con Datos Reales**:
+   - Haz dump del VPS: `ssh root@vps "docker compose exec -T database pg_dump -U user db" > backup.sql`
+   - Importa en local temporalmente
+   - Prueba
+   - Elimina después
+
+3. **Migraciones en Producción**:
+   - Prueba localmente primero
+   - Backup antes de migrar
+   - Ejecuta migraciones seguras
+   - Verifica que todo funciona
+
+### ⚠️ NUNCA Conectes Local Directamente a Producción
+
+Ver `CONECTAR_LOCAL_A_VPS.md` para más detalles, pero en resumen:
+- ❌ No desarrolles conectado a producción
+- ❌ No experimentes con datos reales
+- ✅ Solo para consultas/verificaciones puntuales
+
 ## 📞 ¿Necesitas Ayuda?
 
 Si tienes problemas con las migraciones:

@@ -8,6 +8,8 @@
     "dev": "node --watch src/index.js",
     "start": "node src/index.js",
     "migrate": "node src/scripts/runMigrations.js",
+    "backup": "node src/scripts/backupDatabase.js",
+    "migrate:safe": "node src/scripts/backupDatabase.js && node src/scripts/runMigrations.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

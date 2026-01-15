@@ -17,7 +17,8 @@ services:
       - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5173}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
     env_file:
-      - .env
+      - .env.local  # Prioridad: .env.local primero (para usar BD del VPS)
+      - .env        # Luego .env normal
     volumes:
       # Montar código fuente para hot reload
       - ./backend/src:/app/src
@@ -25,9 +26,11 @@ services:
       # Excluir node_modules (usar los del contenedor)
       - /app/node_modules
     command: npm run dev  # Usar modo desarrollo con --watch
-    depends_on:
-      database:
-        condition: service_healthy
+    # Dependencia de BD local solo si no estamos usando BD del VPS
+    # Si DB_HOST en .env.local apunta al VPS, comentar esta dependencia
+    # depends_on:
+    #   database:
+    #     condition: service_healthy
     restart: unless-stopped
     networks:
       - unikuo-network
