@@ -34,11 +34,24 @@ El frontend necesita recompilarse para incluir los nuevos componentes:
 docker compose build frontend
 ```
 
-### 5. Recrear la Base de Datos (IMPORTANTE)
+### 5. Actualizar la Base de Datos
+
+**Opción A: Usar Migraciones (RECOMENDADO)** ✅
+
+Si agregaste nuevas tablas o modificaste la estructura, ejecuta las migraciones:
+
+```bash
+# Ejecutar migraciones pendientes
+docker compose exec backend npm run migrate
+```
+
+Esto ejecutará automáticamente todas las migraciones nuevas que hayas creado en `database/migrations/`.
+
+**Opción B: Recrear Base de Datos (SOLO si es primera vez o no importa perder datos)** ⚠️
 
 **⚠️ ADVERTENCIA:** Esto eliminará todos los datos existentes en la base de datos del VPS.
 
-Si es la primera vez que agregas las tablas de autenticación, necesitas recrear el volumen de la base de datos:
+Si es la primera vez que despliegas o no te importa perder datos:
 
 ```bash
 # Detener los contenedores
@@ -49,6 +62,9 @@ docker volume rm unikuo_plataform_postgres-data
 
 # Volver a iniciar (esto ejecutará init.sql automáticamente)
 docker compose up -d
+
+# Ejecutar migraciones iniciales
+docker compose exec backend npm run migrate
 ```
 
 ### 6. Verificar que todo funciona
@@ -126,22 +142,26 @@ Pero esto puede fallar si las tablas ya existen. Mejor usar migraciones SQL espe
 ```bash
 # 1. En tu máquina local
 git add .
-git commit -m "Agregar autenticación"
+git commit -m "Agregar nueva funcionalidad"
 git push origin main
 
 # 2. En el VPS (se ejecuta automáticamente si tienes GitHub Actions)
 cd /root/unikuo_plataform
 git pull origin main
 
-# 3. Reconstruir frontend
+# 3. Reconstruir frontend (si cambió el código del frontend)
 docker compose build frontend
+docker compose up -d frontend
 
-# 4. Si agregaste nuevas tablas, recrear BD (CUIDADO: borra datos)
-docker compose down
-docker volume rm unikuo_plataform_postgres-data
-docker compose up -d
+# 4. Ejecutar migraciones de base de datos (si agregaste/modificaste tablas)
+docker compose exec backend npm run migrate
 
 # 5. Verificar
 docker compose ps
 docker compose logs backend --tail=20
 ```
+
+## 📚 Más Información
+
+Para más detalles sobre cómo crear y usar migraciones, consulta:
+- **`MIGRACIONES_BASE_DATOS.md`** - Guía completa del sistema de migraciones

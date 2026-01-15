@@ -1,16 +1,8 @@
--- Script de inicialización de la base de datos
--- Este archivo se ejecuta automáticamente cuando el contenedor de PostgreSQL se crea por primera vez
--- NOTA: Para cambios futuros, usa el sistema de migraciones en database/migrations/
+-- Migración 001: Schema inicial con autenticación y roles
+-- Esta migración contiene todas las tablas iniciales del sistema
 
 -- Crear extensión para UUIDs (útil para IDs)
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- Tabla para trackear migraciones ejecutadas
-CREATE TABLE IF NOT EXISTS migrations (
-    id SERIAL PRIMARY KEY,
-    filename VARCHAR(255) NOT NULL UNIQUE,
-    executed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 -- Crear tabla de prueba para verificar conexión
 CREATE TABLE IF NOT EXISTS test_connection (
@@ -25,7 +17,6 @@ VALUES ('Base de datos inicializada correctamente')
 ON CONFLICT DO NOTHING;
 
 -- Crear tabla de ejemplo para futuras funcionalidades
--- (Puedes eliminar esto cuando empieces a crear tus propias tablas)
 CREATE TABLE IF NOT EXISTS example_table (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
@@ -108,6 +99,3 @@ INSERT INTO roles (name, description) VALUES
     ('user', 'Usuario estándar'),
     ('store_owner', 'Propietario de tienda')
 ON CONFLICT (name) DO NOTHING;
-
--- Nota: El usuario administrador se crea mediante el endpoint de registro
--- o mediante un script de inicialización separado

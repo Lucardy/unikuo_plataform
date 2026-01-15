@@ -1,0 +1,2 @@
+# Esta carpeta contiene las migraciones de la base de datos
+# Cada archivo debe seguir el formato: 001_nombre_descriptivo.sql
