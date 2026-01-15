@@ -17,8 +17,8 @@ services:
       - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5173}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
     env_file:
-      - .env.local  # Prioridad: .env.local primero (para usar BD del VPS)
-      - .env        # Luego .env normal
+      - .env        # Carga primero .env
+      - .env.local  # Luego .env.local (sobrescribe .env)
     volumes:
       # Montar código fuente para hot reload
       - ./backend/src:/app/src

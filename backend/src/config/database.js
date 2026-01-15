@@ -7,14 +7,19 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Cargar .env.local primero (si existe), luego .env
-dotenv.config({ path: path.join(__dirname, '../../../.env.local') });
-dotenv.config(); // .env como fallback
+// Cargar .env (Docker Compose ya pasa las variables de .env.local si existe)
+dotenv.config();
 
 // Configuración de la conexión a PostgreSQL
+const dbHost = process.env.DB_HOST || 'database';
+const dbPort = parseInt(process.env.DB_PORT) || 5432;
+
+// Log para debug (ver qué BD está usando)
+console.log(`🔗 Conectando a BD: ${dbHost}:${dbPort}`);
+
 const pool = new Pool({
-  host: process.env.DB_HOST || 'database',
-  port: parseInt(process.env.DB_PORT) || 5432,
+  host: dbHost,
+  port: dbPort,
   database: process.env.DB_NAME || 'unikuo_plataform',
   user: process.env.DB_USER || 'unikuo_user',
   password: process.env.DB_PASSWORD || 'unikuo_password',
