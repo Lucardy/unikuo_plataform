@@ -6,59 +6,91 @@ Plataforma estilo Shopify para crear tiendas online fácilmente.
 
 ```
 unikuo_plataform/
-├── server/          # Backend en Node.js + Express
-├── src/             # Frontend en React + TypeScript + Vite
-└── public/          # Archivos estáticos
+├── backend/              # Backend Node.js + Express
+│   ├── Dockerfile
+│   ├── package.json
+│   └── src/
+├── frontend/             # Frontend React + TypeScript + Vite
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   ├── package.json
+│   └── src/
+├── docker-compose.yml    # Orquestación de servicios Docker
+├── .env.example          # Variables de entorno de ejemplo
+└── README.md
 ```
 
 ## 📋 Requisitos Previos
 
-- Node.js (v18 o superior)
-- npm o yarn
+- Node.js (v18 o superior) - Para desarrollo local
+- Docker y Docker Compose - Para producción y despliegue
+- Git - Para control de versiones
 
 ## 🛠️ Instalación
 
-### 1. Instalar dependencias del frontend
+### Opción 1: Desarrollo Local (Sin Docker)
 
+#### Frontend
 ```bash
+cd frontend
 npm install
+npm run dev
 ```
 
-### 2. Instalar dependencias del backend
+#### Backend
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+### Opción 2: Con Docker (Recomendado para Producción)
 
 ```bash
-cd server
-npm install
-cd ..
+# Copiar variables de entorno
+cp .env.example .env
+
+# Editar .env con tus configuraciones
+# Luego construir y ejecutar
+docker-compose build
+docker-compose up -d
 ```
 
 ## 🏃 Desarrollo Local
 
-### Iniciar el Backend
+### Sin Docker
 
-En una terminal:
-
+**Terminal 1 - Backend:**
 ```bash
-cd server
+cd backend
 npm run dev
 ```
 
-El backend estará disponible en `http://localhost:3000`
-
-### Iniciar el Frontend
-
-En otra terminal:
-
+**Terminal 2 - Frontend:**
 ```bash
+cd frontend
 npm run dev
 ```
 
-El frontend estará disponible en `http://localhost:5173`
+### Con Docker
+
+```bash
+# Iniciar todos los servicios
+docker-compose up -d
+
+# Ver logs
+docker-compose logs -f
+
+# Detener servicios
+docker-compose down
+```
 
 ## 🧪 Probar la Conexión
 
-1. Asegúrate de que ambos servidores estén corriendo
-2. Abre el navegador en `http://localhost:5173`
+1. Asegúrate de que ambos servicios estén corriendo
+2. Abre el navegador en:
+   - **Local**: `http://localhost:5173` (desarrollo) o `http://localhost` (Docker)
+   - **VPS**: `http://TU_IP_O_DOMINIO`
 3. Haz clic en "Probar Conexión" para verificar que el frontend se conecta correctamente con el backend
 
 ## 📦 Producción
@@ -66,55 +98,65 @@ El frontend estará disponible en `http://localhost:5173`
 ### Build del Frontend
 
 ```bash
+cd frontend
 npm run build
 ```
 
-Los archivos compilados estarán en la carpeta `dist/`
+Los archivos compilados estarán en la carpeta `frontend/dist/`
 
 ### Ejecutar Backend en Producción
 
 ```bash
-cd server
+cd backend
 npm start
 ```
 
-## 🌐 Configuración para VPS
+### Con Docker
 
-### Variables de Entorno
+```bash
+# Construir imágenes
+docker-compose build
 
-#### Frontend (.env)
+# Iniciar servicios
+docker-compose up -d
 
-Crea un archivo `.env` en la raíz del proyecto:
-
-```env
-VITE_API_URL=http://tu-vps-ip:3000
-# O si tienes dominio:
-# VITE_API_URL=https://api.tu-dominio.com
+# Verificar estado
+docker-compose ps
 ```
 
-#### Backend (server/.env)
+## 🌐 Despliegue en VPS
 
-Crea un archivo `.env` en la carpeta `server/`:
+### Con Docker (Recomendado)
 
-```env
-PORT=3000
-NODE_ENV=production
-API_URL=http://tu-vps-ip:3000
-FRONTEND_URL=http://tu-vps-ip:5173
-# O si tienes dominio:
-# API_URL=https://api.tu-dominio.com
-# FRONTEND_URL=https://tu-dominio.com
+1. **Instalar Docker en el VPS:**
+```bash
+sudo apt update
+sudo apt install docker.io docker-compose -y
 ```
 
-### Desplegar en VPS
+2. **Subir el proyecto al VPS** (Git, SCP, etc.)
 
-1. Sube los archivos del proyecto al VPS
-2. Instala las dependencias (tanto frontend como backend)
-3. Configura las variables de entorno
-4. Ejecuta el build del frontend: `npm run build`
-5. Inicia el backend: `cd server && npm start`
-6. Configura un servidor web (nginx) para servir el frontend y hacer proxy al backend
-7. Configura PM2 o similar para mantener el backend corriendo
+3. **Configurar variables de entorno:**
+```bash
+cp .env.example .env
+nano .env  # Editar con tus valores de producción
+```
+
+4. **Construir y ejecutar:**
+```bash
+docker-compose build
+docker-compose up -d
+```
+
+5. **Verificar:**
+```bash
+docker-compose ps
+docker-compose logs -f
+```
+
+### Sin Docker (PM2 + Nginx)
+
+Ver la guía completa en `GUIA_VPS_HOSTINGER.md`
 
 ## 📡 Endpoints del API
 
@@ -122,8 +164,18 @@ FRONTEND_URL=http://tu-vps-ip:5173
 - `GET /api/test` - Endpoint de prueba básico
 - `GET /api/test/health` - Health check
 
+## 📚 Documentación
+
+- **`DOCKER.md`** - Guía completa de Docker
+- **`GUIA_VPS_HOSTINGER.md`** - Guía de despliegue en VPS (sin Docker)
+- **`INSTRUCCIONES.md`** - Instrucciones rápidas
+- **`QUE_ES_DOCKER.md`** - Explicación sobre Docker
+
 ## 🏗️ Próximos Pasos
 
+- [x] Backend básico funcionando
+- [x] Frontend conectado al backend
+- [x] Docker configurado
 - [ ] Configurar base de datos (MySQL/PostgreSQL)
 - [ ] Sistema de autenticación
 - [ ] CRUD de tiendas
@@ -136,5 +188,39 @@ FRONTEND_URL=http://tu-vps-ip:5173
 
 - El backend usa Node.js con Express
 - El frontend usa React con TypeScript y Vite
+- Docker está configurado para facilitar el despliegue
 - CORS está configurado para permitir conexiones desde el frontend
 - El proyecto está preparado para escalar fácilmente
+
+## 🐛 Solución de Problemas
+
+### El frontend no se conecta al backend
+
+1. Verifica que el backend esté corriendo
+2. Verifica las variables de entorno (especialmente `VITE_API_URL`)
+3. Revisa la configuración de CORS en `backend/src/middleware/cors.js`
+4. Si usas Docker, verifica que ambos contenedores estén corriendo: `docker-compose ps`
+
+### Error de CORS
+
+- Verifica que `ALLOWED_ORIGINS` en `.env` incluya la URL del frontend
+- En desarrollo, CORS permite cualquier origen por defecto
+
+### Docker no inicia
+
+```bash
+# Ver logs de errores
+docker-compose logs
+
+# Verificar configuración
+docker-compose config
+
+# Reconstruir desde cero
+docker-compose down -v
+docker-compose build --no-cache
+docker-compose up -d
+```
+
+## 📞 Soporte
+
+Para más información, consulta la documentación en los archivos `.md` del proyecto.
