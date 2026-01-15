@@ -1,0 +1,70 @@
+name: Deploy Unikuo Platform to VPS
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - 'README.md'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Desplegar en VPS
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            echo "🚀 Iniciando despliegue..."
+            
+            # Ir al directorio del proyecto
+            cd /root/unikuo_plataform
+            
+            # Obtener últimos cambios
+            echo "📥 Obteniendo últimos cambios de GitHub..."
+            git fetch origin
+            git reset --hard origin/main
+            git pull origin main
+            
+            # Verificar que docker-compose existe
+            if ! command -v docker-compose &> /dev/null; then
+              echo "❌ docker-compose no encontrado, usando docker compose"
+              DOCKER_COMPOSE="docker compose"
+            else
+              DOCKER_COMPOSE="docker-compose"
+            fi
+            
+            # Reconstruir imágenes (solo si hay cambios en Dockerfiles o código)
+            echo "🔨 Reconstruyendo imágenes Docker..."
+            $DOCKER_COMPOSE build --no-cache
+            
+            # Detener servicios antiguos
+            echo "🛑 Deteniendo servicios antiguos..."
+            $DOCKER_COMPOSE down
+            
+            # Iniciar servicios nuevos
+            echo "▶️ Iniciando servicios nuevos..."
+            $DOCKER_COMPOSE up -d
+            
+            # Esperar un momento para que los servicios inicien
+            sleep 5
+            
+            # Verificar estado de los servicios
+            echo "✅ Verificando estado de los servicios..."
+            $DOCKER_COMPOSE ps
+            
+            # Mostrar logs recientes
+            echo "📋 Últimos logs:"
+            $DOCKER_COMPOSE logs --tail=20
+            
+            echo "🎉 Despliegue completado!"
