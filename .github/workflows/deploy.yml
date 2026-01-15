@@ -36,13 +36,8 @@ jobs:
             git reset --hard origin/main
             git pull origin main
             
-            # Verificar que docker-compose existe
-            if ! command -v docker-compose &> /dev/null; then
-              echo "❌ docker-compose no encontrado, usando docker compose"
-              DOCKER_COMPOSE="docker compose"
-            else
-              DOCKER_COMPOSE="docker-compose"
-            fi
+            # Usar docker compose (v2) - más moderno y viene con Docker
+            DOCKER_COMPOSE="docker compose"
             
             # Reconstruir imágenes (solo si hay cambios en Dockerfiles o código)
             echo "🔨 Reconstruyendo imágenes Docker..."
