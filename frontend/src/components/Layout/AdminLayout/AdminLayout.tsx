@@ -24,6 +24,7 @@ import {
   FaUserShield,
   FaUsers,
   FaShoppingCart,
+  FaStore,
 } from 'react-icons/fa';
 import './AdminLayout.css';
 
@@ -192,6 +193,16 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     },
     */
   ];
+
+  const isSuperAdmin = user?.roles?.some(r => r.nombre === 'super_admin');
+
+  if (isSuperAdmin) {
+    menuItems.push({
+      path: '/admin/super/tenants',
+      label: 'Gestión SaaS',
+      icon: FaStore,
+    });
+  }
 
   const isActive = (path: string, exact: boolean = false) => {
     if (exact) {

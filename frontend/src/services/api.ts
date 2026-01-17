@@ -5,6 +5,7 @@ import { StockService } from './stock.service';
 import { SalesService } from './sales.service';
 import { UserService } from './user.service';
 import { GeneralService } from './general.service';
+import { SuperAdminService } from './superAdmin.service';
 
 /**
  * Servicio para hacer llamadas al API
@@ -22,7 +23,8 @@ interface ApiService extends
   StockService,
   SalesService,
   UserService,
-  GeneralService { }
+  GeneralService,
+  SuperAdminService { }
 
 class ApiService extends HttpClient {
   constructor() {
@@ -49,7 +51,8 @@ applyMixins(ApiService, [
   StockService,
   SalesService,
   UserService,
-  GeneralService
+  GeneralService,
+  SuperAdminService
 ]);
 
 export const apiService = new ApiService();

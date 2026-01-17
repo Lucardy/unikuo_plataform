@@ -21,6 +21,7 @@ import Audit from './pages/Admin/Audit/Audit';
 import Reports from './pages/Admin/Reports/Reports';
 import POSPage from './pages/Admin/POS/POSPage';
 import CashRegisterPage from './pages/Admin/CashRegisters/CashRegisterPage';
+import Tenants from './pages/SuperAdmin/Tenants/Tenants';
 import './App.css';
 
 function App() {
@@ -238,6 +239,16 @@ function App() {
             <AdminRoute>
               <AdminLayout>
                 <CashRegisterPage />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/super/tenants"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Tenants />
               </AdminLayout>
             </AdminRoute>
           }

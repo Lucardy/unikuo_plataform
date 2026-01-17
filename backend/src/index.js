@@ -9,6 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import testRoutes from './routes/test.routes.js';
 import databaseRoutes from './routes/database.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import categoriesRoutes from './routes/categories.routes.js';
 import productsRoutes from './routes/products.routes.js';
@@ -52,6 +53,7 @@ app.use(tenantResolver);
 // Rutas
 app.use('/api/test', testRoutes);
 app.use('/api/database', databaseRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/products', productsRoutes);
