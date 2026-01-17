@@ -3,7 +3,7 @@ import apiService from '../../../services/api';
 import type { Tenant } from '../../../services/superAdmin.service';
 import Button from '../../../components/UI/Button/Button';
 import Modal from '../../../components/UI/Modal/Modal';
-import { FaStore, FaEdit, FaCheck, FaTimes, FaCog } from 'react-icons/fa';
+import { FaStore, FaCheck, FaTimes, FaCog } from 'react-icons/fa';
 import './Tenants.css';
 
 const Tenants: React.FC = () => {

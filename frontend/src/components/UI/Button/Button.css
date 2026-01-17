@@ -87,3 +87,7 @@
 .ui-btn-ghost:hover:not(:disabled) {
   background: var(--admin-bg-tertiary);
 }
+
+.ui-btn-full {
+  width: 100%;
+}

@@ -10,6 +10,7 @@ interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   className?: string;
+  fullWidth?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,11 +22,12 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   loading = false,
   className = '',
+  fullWidth = false,
 }) => {
   return (
     <button
       type={type}
-      className={`ui-btn ui-btn-${variant} ${className}`}
+      className={`ui-btn ui-btn-${variant} ${fullWidth ? 'ui-btn-full' : ''} ${className}`}
       onClick={onClick}
       disabled={disabled || loading}
     >
