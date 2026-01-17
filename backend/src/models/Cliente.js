@@ -13,8 +13,8 @@ class Cliente {
       'c.nombre',
       'c.slug',
       'c.email',
-      'c.phone as telefono',
-      'c.domain as dominio',
+      'c.telefono',
+      'c.dominio',
       'c.activo',
       'c.theme_config',
       'c.layout_config',
@@ -79,7 +79,7 @@ class Cliente {
   async obtenerPorDominio(dominio) {
     return await db('clientes as c')
       .select(this.selectFields)
-      .where('c.domain', dominio)
+      .where('c.dominio', dominio)
       .where('c.activo', true)
       .first();
   }
@@ -117,8 +117,8 @@ class Cliente {
         nombre,
         slug,
         email: email || null,
-        phone: telefono || null,
-        domain: dominio || null,
+        telefono: telefono || null,
+        dominio: dominio || null,
         propietario_id: propietario_id || null,
         activo,
         theme_config,
@@ -130,8 +130,8 @@ class Cliente {
         'nombre',
         'slug',
         'email',
-        'phone as telefono',
-        'domain as dominio',
+        'telefono',
+        'dominio',
         'activo',
         'theme_config',
         'layout_config',
@@ -158,8 +158,8 @@ class Cliente {
     if (nombre !== undefined) updateData.nombre = nombre;
     if (slug !== undefined) updateData.slug = slug;
     if (email !== undefined) updateData.email = email;
-    if (telefono !== undefined) updateData.phone = telefono;
-    if (dominio !== undefined) updateData.domain = dominio;
+    if (telefono !== undefined) updateData.telefono = telefono;
+    if (dominio !== undefined) updateData.dominio = dominio;
     if (propietario_id !== undefined) updateData.propietario_id = propietario_id;
     if (activo !== undefined) updateData.activo = activo;
     if (theme_config !== undefined) updateData.theme_config = theme_config;
@@ -180,8 +180,8 @@ class Cliente {
         'nombre',
         'slug',
         'email',
-        'phone as telefono',
-        'domain as dominio',
+        'telefono',
+        'dominio',
         'activo',
         'theme_config',
         'layout_config',
