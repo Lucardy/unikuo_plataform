@@ -169,18 +169,21 @@ Ver la guía completa en `GUIA_VPS_HOSTINGER.md`
 
 ## 📚 Documentación
 
-- **`DOCKER.md`** - Guía completa de Docker
-- **`GUIA_VPS_HOSTINGER.md`** - Guía de despliegue en VPS (sin Docker)
-- **`INSTRUCCIONES.md`** - Instrucciones rápidas
-- **`QUE_ES_DOCKER.md`** - Explicación sobre Docker
+- **`INICIO_RAPIDO.md`** - Guía rápida para empezar
+- **`ACTUALIZAR_VPS.md`** - Cómo actualizar el proyecto en el VPS
+- **`MIGRACIONES_BASE_DATOS.md`** - Sistema de migraciones de base de datos
+- **`AUTENTICACION_SETUP.md`** - Documentación del sistema de autenticación
+- **`DOCKER_DESARROLLO_HOT_RELOAD.md`** - Desarrollo con Docker y hot reload
+- **`DOCKER_EN_VPS.md`** - Gestión de Docker en el VPS
+- **`FLUJO_TRABAJO_DIARIO.md`** - Flujo de trabajo diario recomendado
 
 ## 🏗️ Próximos Pasos
 
 - [x] Backend básico funcionando
 - [x] Frontend conectado al backend
 - [x] Docker configurado
-- [ ] Configurar base de datos (MySQL/PostgreSQL)
-- [ ] Sistema de autenticación
+- [x] Base de datos PostgreSQL configurada
+- [x] Sistema de autenticación y roles
 - [ ] CRUD de tiendas
 - [ ] Sistema de plantillas
 - [ ] Gestión de productos

@@ -1,20 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import apiService from '../services/api';
+import type { Usuario } from '../services/api';
 
-interface User {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  active: boolean;
-  email_verified: boolean;
-  roles: Array<{
-    id: string;
-    name: string;
-    description?: string;
-  }>;
-}
+type User = Usuario;
 
 interface AuthContextType {
   user: User | null;
@@ -24,9 +13,9 @@ interface AuthContextType {
   register: (userData: {
     email: string;
     password: string;
-    first_name: string;
-    last_name: string;
-    roleIds?: string[];
+    nombre: string;
+    apellido: string;
+    rolesIds?: string[];
   }) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
@@ -59,12 +48,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           if (storedUser) {
             setUser(storedUser);
           }
-          
+
           // Verificar token y obtener usuario actualizado
           const response = await apiService.getMe();
-          if (response.success && response.data?.user) {
-            setUser(response.data.user);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
+          if (response.success && response.data?.usuario) {
+            setUser(response.data.usuario);
+            localStorage.setItem('user', JSON.stringify(response.data.usuario));
           } else {
             // Token inválido, limpiar
             apiService.logout();
@@ -84,8 +73,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (email: string, password: string) => {
     const response = await apiService.login(email, password);
-    if (response.success && response.data?.user) {
-      setUser(response.data.user);
+    if (response.success && response.data?.usuario) {
+      setUser(response.data.usuario);
     } else {
       throw new Error(response.message || 'Error al iniciar sesión');
     }
@@ -94,13 +83,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const register = async (userData: {
     email: string;
     password: string;
-    first_name: string;
-    last_name: string;
-    roleIds?: string[];
+    nombre: string;
+    apellido: string;
+    rolesIds?: string[];
   }) => {
     const response = await apiService.register(userData);
-    if (response.success && response.data?.user) {
-      setUser(response.data.user);
+    if (response.success && response.data?.usuario) {
+      setUser(response.data.usuario);
     } else {
       throw new Error(response.message || 'Error al registrar usuario');
     }
@@ -114,9 +103,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const refreshUser = async () => {
     try {
       const response = await apiService.getMe();
-      if (response.success && response.data?.user) {
-        setUser(response.data.user);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+      if (response.success && response.data?.usuario) {
+        setUser(response.data.usuario);
+        localStorage.setItem('user', JSON.stringify(response.data.usuario));
       }
     } catch (error) {
       console.error('Error al actualizar usuario:', error);

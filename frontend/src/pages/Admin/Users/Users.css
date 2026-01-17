@@ -1,0 +1,124 @@
+.admin-users {
+  width: 100%;
+}
+
+.admin-users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+}
+
+.admin-users-title-section h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.admin-users-title-section p {
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.admin-users-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.stat-card {
+  background: var(--admin-bg-secondary);
+  border: 2px solid var(--admin-border-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--admin-accent);
+  box-shadow: var(--admin-shadow-md);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: var(--admin-accent);
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+  font-weight: 500;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+}
+
+.stat-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--admin-text-primary);
+}
+
+.stat-checkbox input[type="checkbox"] {
+  cursor: pointer;
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--admin-accent);
+}
+
+.admin-users-content {
+  background: var(--admin-bg-primary);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.users-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .admin-users-header {
+    flex-direction: column;
+  }
+
+  .admin-users-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-users-content {
+    padding: 1.5rem;
+  }
+}

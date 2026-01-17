@@ -1,0 +1,89 @@
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.ui-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ui-btn-icon {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.ui-btn-spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ui-btn-primary {
+  background: var(--admin-accent);
+  color: var(--admin-bg-primary);
+  border-color: var(--admin-accent);
+}
+
+.ui-btn-primary:hover:not(:disabled) {
+  background: var(--admin-accent-hover);
+  box-shadow: var(--admin-shadow-md);
+  transform: translateY(-1px);
+}
+
+.ui-btn-outline {
+  background: var(--admin-bg-primary);
+  color: var(--admin-accent);
+  border: 2px solid var(--admin-accent);
+}
+
+.ui-btn-outline:hover:not(:disabled) {
+  background: var(--admin-accent);
+  color: var(--admin-bg-primary);
+  box-shadow: var(--admin-shadow-md);
+  transform: translateY(-1px);
+}
+
+.ui-btn-danger {
+  background: var(--admin-accent);
+  color: var(--admin-bg-primary);
+  border-color: var(--admin-accent);
+}
+
+.ui-btn-danger:hover:not(:disabled) {
+  background: var(--admin-accent-hover);
+  box-shadow: var(--admin-shadow-md);
+  transform: translateY(-1px);
+}
+
+.ui-btn-ghost {
+  background: transparent;
+  color: var(--admin-text-primary);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.ui-btn-ghost:hover:not(:disabled) {
+  background: var(--admin-bg-tertiary);
+}

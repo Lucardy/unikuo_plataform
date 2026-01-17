@@ -1,0 +1,31 @@
+.admin-products {
+  width: 100%;
+}
+
+.admin-products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-products-title-section h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.admin-products-title-section p {
+  font-size: 1rem;
+  color: var(--admin-text-secondary);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .admin-products-header {
+    flex-direction: column;
+  }
+}

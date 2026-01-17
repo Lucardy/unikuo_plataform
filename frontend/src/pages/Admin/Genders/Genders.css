@@ -1,0 +1,101 @@
+.admin-genders {
+  width: 100%;
+}
+
+.admin-genders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+}
+
+.admin-genders-title-section h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.admin-genders-title-section p {
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.admin-genders-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--admin-bg-primary);
+  border-radius: 8px;
+  flex-wrap: wrap;
+  border: 1px solid var(--admin-border-light);
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.stat-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+}
+
+.stat-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.admin-genders-content {
+  background: var(--admin-bg-primary);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.genders-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .admin-genders-header {
+    flex-direction: column;
+  }
+
+  .admin-genders-stats {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .admin-genders-content {
+    padding: 1.5rem;
+  }
+}

@@ -1,250 +1,56 @@
-import API_CONFIG from '../config/api';
+import { HttpClient } from './http';
+import { AuthService } from './auth.service';
+import { CatalogService } from './catalog.service';
+import { StockService } from './stock.service';
+import { SalesService } from './sales.service';
+import { UserService } from './user.service';
+import { GeneralService } from './general.service';
 
 /**
  * Servicio para hacer llamadas al API
+ * 
+ * ATENCIÓN: Este archivo ahora actúa como un "Facade" que combina múltiples servicios especializados.
+ * La implementación real de cada método está en los servicios específicos (auth.service.ts, catalog.service.ts, etc.)
  */
 
-interface ApiResponse<T = any> {
-  success: boolean;
-  message?: string;
-  data?: T;
-  [key: string]: any;
-}
+export * from '../types/models';
 
-class ApiService {
-  private baseURL: string;
+// Definición de ApiService usando "Interface Merging" para combinar todos los tipos de los servicios
+interface ApiService extends
+  AuthService,
+  CatalogService,
+  StockService,
+  SalesService,
+  UserService,
+  GeneralService { }
 
+class ApiService extends HttpClient {
   constructor() {
-    this.baseURL = API_CONFIG.baseURL;
-  }
-
-  /**
-   * Realiza una petición GET
-   */
-  async get<T = any>(endpoint: string): Promise<ApiResponse<T>> {
-    try {
-      const response = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error en GET request:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Realiza una petición POST
-   */
-  async post<T = any>(endpoint: string, body?: any): Promise<ApiResponse<T>> {
-    try {
-      const response = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: body ? JSON.stringify(body) : undefined,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error en POST request:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Test de conexión con el backend
-   */
-  async testConnection(): Promise<ApiResponse> {
-    return this.get('/api/test');
-  }
-
-  /**
-   * Health check del backend
-   */
-  async healthCheck(): Promise<ApiResponse> {
-    return this.get('/api/test/health');
-  }
-
-  /**
-   * Test de conexión con la base de datos
-   */
-  async testDatabase(): Promise<ApiResponse> {
-    return this.get('/api/database/test');
-  }
-
-  /**
-   * Obtener datos de prueba de la base de datos
-   */
-  async getDatabaseData(): Promise<ApiResponse> {
-    return this.get('/api/database/data');
-  }
-
-  /**
-   * Obtener token del localStorage
-   */
-  private getToken(): string | null {
-    return localStorage.getItem('token');
-  }
-
-  /**
-   * Realiza una petición GET con autenticación
-   */
-  async getAuth<T = any>(endpoint: string): Promise<ApiResponse<T>> {
-    const token = this.getToken();
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    try {
-      const response = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'GET',
-        headers,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error en GET request:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Realiza una petición POST con autenticación
-   */
-  async postAuth<T = any>(endpoint: string, body?: any): Promise<ApiResponse<T>> {
-    const token = this.getToken();
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    try {
-      const response = await fetch(`${this.baseURL}${endpoint}`, {
-        method: 'POST',
-        headers,
-        body: body ? JSON.stringify(body) : undefined,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error en POST request:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Registrar nuevo usuario
-   */
-  async register(userData: {
-    email: string;
-    password: string;
-    first_name: string;
-    last_name: string;
-    roleIds?: string[];
-  }): Promise<ApiResponse> {
-    const response = await this.post('/api/auth/register', userData);
-    if (response.success && response.data?.token) {
-      localStorage.setItem('token', response.data.token);
-      if (response.data.user) {
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-      }
-    }
-    return response;
-  }
-
-  /**
-   * Iniciar sesión
-   */
-  async login(email: string, password: string): Promise<ApiResponse> {
-    const response = await this.post('/api/auth/login', { email, password });
-    if (response.success && response.data?.token) {
-      localStorage.setItem('token', response.data.token);
-      if (response.data.user) {
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-      }
-    }
-    return response;
-  }
-
-  /**
-   * Cerrar sesión
-   */
-  logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-  }
-
-  /**
-   * Obtener información del usuario autenticado
-   */
-  async getMe(): Promise<ApiResponse> {
-    return this.getAuth('/api/auth/me');
-  }
-
-  /**
-   * Obtener todos los roles disponibles
-   */
-  async getRoles(): Promise<ApiResponse> {
-    return this.get('/api/auth/roles');
-  }
-
-  /**
-   * Verificar si hay un token guardado
-   */
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
-
-  /**
-   * Obtener usuario del localStorage
-   */
-  getStoredUser(): any | null {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      try {
-        return JSON.parse(userStr);
-      } catch {
-        return null;
-      }
-    }
-    return null;
+    super();
   }
 }
 
-// Exportar una instancia única del servicio
+// Función helper para aplicar mixins
+function applyMixins(derivedCtor: any, baseCtors: any[]) {
+  baseCtors.forEach(baseCtor => {
+    Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
+      // No sobrescribir constructor o métodos base de HttpClient si ya existen
+      if (name !== 'constructor') {
+        Object.defineProperty(derivedCtor.prototype, name, Object.getOwnPropertyDescriptor(baseCtor.prototype, name)!);
+      }
+    });
+  });
+}
+
+// Aplicar los mixins a la clase ApiService
+applyMixins(ApiService, [
+  AuthService,
+  CatalogService,
+  StockService,
+  SalesService,
+  UserService,
+  GeneralService
+]);
+
 export const apiService = new ApiService();
 export default apiService;

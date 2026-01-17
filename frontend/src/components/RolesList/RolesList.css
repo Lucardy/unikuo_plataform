@@ -1,0 +1,104 @@
+.roles-list {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.roles-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--admin-bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.roles-table thead {
+  background: var(--admin-bg-tertiary);
+}
+
+.roles-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  font-size: 0.9rem;
+  border-bottom: 2px solid var(--admin-border-light);
+}
+
+.roles-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--admin-border-light);
+  color: var(--admin-text-primary);
+}
+
+.roles-table tr:hover {
+  background: var(--admin-bg-tertiary);
+}
+
+.role-name {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.role-icon {
+  color: var(--admin-accent);
+  font-size: 1.1rem;
+}
+
+.role-name strong {
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  text-transform: capitalize;
+}
+
+.role-description {
+  color: var(--admin-text-secondary);
+  font-size: 0.9rem;
+}
+
+.role-users {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.users-icon {
+  color: var(--admin-accent);
+}
+
+.role-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.roles-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--admin-text-secondary);
+}
+
+.roles-empty svg {
+  color: var(--admin-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.roles-empty p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .roles-table {
+    font-size: 0.85rem;
+  }
+
+  .roles-table th,
+  .roles-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .role-actions {
+    flex-direction: column;
+  }
+}

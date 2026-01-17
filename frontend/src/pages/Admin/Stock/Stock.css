@@ -1,0 +1,222 @@
+.admin-stock {
+  width: 100%;
+}
+
+.admin-stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+}
+
+.admin-stock-title-section h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.admin-stock-title-section p {
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.admin-stock-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.stock-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--admin-bg-secondary);
+  border: 2px solid var(--admin-border-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--admin-accent);
+  box-shadow: var(--admin-shadow-md);
+}
+
+.stat-card.warning {
+  border-color: rgba(251, 191, 36, 0.3);
+  background: rgba(251, 191, 36, 0.05);
+}
+
+.stat-card.danger {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.stat-card.info {
+  border-color: rgba(59, 130, 246, 0.3);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: var(--admin-accent);
+}
+
+.stat-card.warning .stat-icon {
+  color: #fbbf24;
+}
+
+.stat-card.danger .stat-icon {
+  color: #ef4444;
+}
+
+.stat-card.info .stat-icon {
+  color: #3b82f6;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+  font-weight: 500;
+}
+
+.admin-stock-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--admin-text-secondary);
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 2.5rem;
+  border: 2px solid var(--admin-border-light);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: var(--admin-bg-primary);
+  color: var(--admin-text-primary);
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.search-results {
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+}
+
+.admin-stock-filters {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--admin-bg-primary);
+  border-radius: 8px;
+  border: 1px solid var(--admin-border-light);
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--admin-text-primary);
+}
+
+.filter-checkbox input[type="checkbox"] {
+  cursor: pointer;
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--admin-accent);
+}
+
+.admin-stock-content {
+  background: var(--admin-bg-primary);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.admin-stock-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--admin-text-secondary);
+}
+
+.admin-stock-empty p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stock-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .admin-stock-header {
+    flex-direction: column;
+  }
+
+  .stock-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-stock-search {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input-wrapper {
+    max-width: 100%;
+  }
+
+  .admin-stock-content {
+    padding: 1.5rem;
+  }
+}

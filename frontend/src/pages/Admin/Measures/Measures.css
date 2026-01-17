@@ -1,0 +1,128 @@
+.admin-measures {
+  width: 100%;
+}
+
+.admin-measures-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1.5rem;
+}
+
+.admin-measures-title-section h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.admin-measures-title-section p {
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.admin-measures-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: var(--admin-bg-primary);
+  border-radius: 8px;
+  flex-wrap: wrap;
+  border: 1px solid var(--admin-border-light);
+  align-items: center;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.stat-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+}
+
+.stat-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.admin-measures-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.measures-section {
+  background: var(--admin-bg-primary);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.measures-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--admin-border-light);
+}
+
+.measures-section-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--admin-text-primary);
+}
+
+.measures-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  color: var(--admin-text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .admin-measures-header {
+    flex-direction: column;
+  }
+
+  .admin-measures-stats {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .measures-section {
+    padding: 1.5rem;
+  }
+
+  .measures-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

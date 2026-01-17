@@ -17,15 +17,16 @@ services:
       - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5173}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
     env_file:
-      - .env        # Carga primero .env
-      - .env.local  # Luego .env.local (sobrescribe .env)
+      - .env # Carga primero .env
+      - .env.local # Luego .env.local (sobrescribe .env)
     volumes:
       # Montar código fuente para hot reload
       - ./backend/src:/app/src
       - ./backend/logs:/app/logs
+      - ./database:/database
       # Excluir node_modules (usar los del contenedor)
       - /app/node_modules
-    command: npm run dev  # Usar modo desarrollo con --watch
+    command: sh -c "npm install && npm run dev" # Instalar dependencias al iniciar y luego correr dev
     # Dependencia de BD local solo si no estamos usando BD del VPS
     # Si DB_HOST en .env.local apunta al VPS, comentar esta dependencia
     # depends_on:
@@ -35,7 +36,7 @@ services:
     networks:
       - unikuo-network
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/test/health"]
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/test/health" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -50,7 +51,7 @@ services:
         - VITE_API_URL=${API_URL:-http://localhost:3000}
     container_name: unikuo-frontend-dev
     ports:
-      - "5173:5173"  # Puerto de desarrollo de Vite (fijo para desarrollo)
+      - "5173:5173" # Puerto de desarrollo de Vite (fijo para desarrollo)
     environment:
       - VITE_API_URL=${API_URL:-http://localhost:3000}
     volumes:
@@ -65,49 +66,20 @@ services:
       - ./frontend/package.json:/app/package.json
       # Excluir node_modules (usar los del contenedor)
       - /app/node_modules
-    command: npm run dev -- --host 0.0.0.0  # Modo desarrollo de Vite
+    command: npm run dev -- --host 0.0.0.0 # Modo desarrollo de Vite
     depends_on:
       backend:
         condition: service_healthy
-      database:
-        condition: service_healthy
     restart: unless-stopped
     networks:
       - unikuo-network
 
-  # Base de datos PostgreSQL (igual que producción)
-  database:
-    image: postgres:16-alpine
-    container_name: unikuo-database-dev
-    environment:
-      - POSTGRES_DB=${DB_NAME:-unikuo_plataform}
-      - POSTGRES_USER=${DB_USER:-unikuo_user}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-unikuo_password}
-    ports:
-      - "${DB_PORT:-5433}:5432"
-    volumes:
-      - postgres-data-dev:/var/lib/postgresql/data
-      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
-    restart: unless-stopped
-    networks:
-      - unikuo-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-unikuo_user} -d ${DB_NAME:-unikuo_plataform}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # Adminer - Interfaz visual para PostgreSQL
+  # Adminer - Interfaz visual para Base de Datos
   adminer:
     image: adminer:latest
     container_name: unikuo-adminer-dev
     ports:
       - "8080:8080"
-    environment:
-      - ADMINER_DEFAULT_SERVER=database
-    depends_on:
-      database:
-        condition: service_healthy
     restart: unless-stopped
     networks:
       - unikuo-network
@@ -116,5 +88,4 @@ networks:
   unikuo-network:
     driver: bridge
 
-volumes:
-  postgres-data-dev:
+# No local volumes needed since we use VPS DB

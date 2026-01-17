@@ -1,0 +1,113 @@
+.audit-list {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--admin-bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.audit-table thead {
+  background: var(--admin-bg-tertiary);
+}
+
+.audit-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  font-size: 0.9rem;
+  border-bottom: 2px solid var(--admin-border-light);
+}
+
+.audit-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--admin-border-light);
+  color: var(--admin-text-primary);
+}
+
+.audit-table tr:hover {
+  background: var(--admin-bg-tertiary);
+}
+
+.audit-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.audit-date svg {
+  color: var(--admin-text-secondary);
+}
+
+.audit-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.audit-user svg {
+  color: var(--admin-accent);
+}
+
+.audit-action-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.audit-table-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--admin-text-secondary);
+}
+
+.audit-table-name svg {
+  color: var(--admin-accent);
+}
+
+.audit-record-id {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--admin-text-secondary);
+}
+
+.audit-ip {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--admin-text-secondary);
+}
+
+.audit-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--admin-text-secondary);
+}
+
+.audit-empty p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .audit-table {
+    font-size: 0.85rem;
+  }
+
+  .audit-table th,
+  .audit-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}

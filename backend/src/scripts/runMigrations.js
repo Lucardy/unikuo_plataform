@@ -51,13 +51,13 @@ async function runMigration(filename, sql) {
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    
+
     // Ejecutar el SQL de la migración
     await client.query(sql);
-    
+
     // Registrar la migración
     await client.query('INSERT INTO migrations (filename) VALUES ($1)', [filename]);
-    
+
     await client.query('COMMIT');
     console.log(`✅ Migración ejecutada: ${filename}`);
   } catch (error) {
@@ -73,18 +73,18 @@ async function runMigration(filename, sql) {
  * Obtener todas las migraciones pendientes
  */
 function getMigrationFiles() {
-  const migrationsDir = path.join(__dirname, '../../../../database/migrations');
-  
+  const migrationsDir = path.join(__dirname, '../../../database/migrations');
+
   if (!fs.existsSync(migrationsDir)) {
     console.log('📁 No existe la carpeta de migraciones, creándola...');
     fs.mkdirSync(migrationsDir, { recursive: true });
     return [];
   }
-  
+
   const files = fs.readdirSync(migrationsDir)
     .filter(file => file.endsWith('.sql'))
     .sort(); // Ordenar alfabéticamente (001, 002, 003...)
-  
+
   return files.map(file => ({
     filename: file,
     path: path.join(migrationsDir, file),
@@ -97,55 +97,55 @@ function getMigrationFiles() {
 async function runMigrations() {
   try {
     console.log('🚀 Iniciando migraciones de base de datos...\n');
-    
+
     // Detectar si estamos en producción (conectando a VPS remoto)
-    const isProduction = process.env.DB_HOST && 
-                         process.env.DB_HOST !== 'database' && 
-                         process.env.DB_HOST !== 'localhost' &&
-                         !process.env.DB_HOST.includes('127.0.0.1');
-    
+    const isProduction = process.env.DB_HOST &&
+      process.env.DB_HOST !== 'database' &&
+      process.env.DB_HOST !== 'localhost' &&
+      !process.env.DB_HOST.includes('127.0.0.1');
+
     if (isProduction) {
       console.log('⚠️  ADVERTENCIA: Estás conectado a una base de datos remota (producción)');
       console.log(`   Host: ${process.env.DB_HOST}`);
       console.log('   Se recomienda hacer backup antes de continuar.\n');
       console.log('   Ejecuta: npm run backup\n');
     }
-    
+
     // Asegurar que existe la tabla de migraciones
     await ensureMigrationsTable();
-    
+
     // Obtener migraciones ejecutadas
     const executedMigrations = await getExecutedMigrations();
     console.log(`📋 Migraciones ya ejecutadas: ${executedMigrations.length}`);
-    
+
     // Obtener todas las migraciones disponibles
     const migrationFiles = getMigrationFiles();
     console.log(`📁 Migraciones encontradas: ${migrationFiles.length}\n`);
-    
+
     if (migrationFiles.length === 0) {
       console.log('ℹ️  No hay migraciones para ejecutar.');
       process.exit(0);
     }
-    
+
     // Filtrar migraciones pendientes
     const pendingMigrations = migrationFiles.filter(
       file => !executedMigrations.includes(file.filename)
     );
-    
+
     if (pendingMigrations.length === 0) {
       console.log('✅ Todas las migraciones ya están ejecutadas.');
       process.exit(0);
     }
-    
+
     console.log(`🔄 Migraciones pendientes: ${pendingMigrations.length}\n`);
-    
+
     // Ejecutar cada migración pendiente
     for (const migration of pendingMigrations) {
       console.log(`📝 Ejecutando: ${migration.filename}...`);
       const sql = fs.readFileSync(migration.path, 'utf8');
       await runMigration(migration.filename, sql);
     }
-    
+
     console.log(`\n✅ ¡Todas las migraciones se ejecutaron correctamente!`);
     process.exit(0);
   } catch (error) {

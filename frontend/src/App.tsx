@@ -1,99 +1,376 @@
-import { useState } from 'react'
-import { useAuth } from './contexts/AuthContext'
-import Login from './components/Login/Login'
-import Register from './components/Register/Register'
-import TestConnection from './components/TestConnection/TestConnection'
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
+import Login from './components/Login/Login';
+import Register from './components/Register/Register';
+import AdminLayout from './components/Layout/AdminLayout/AdminLayout';
+import AdminRoute from './routing/AdminRoute';
+import Dashboard from './pages/Admin/Dashboard/Dashboard';
+import Banners from './pages/Admin/Banners/Banners';
+import Products from './pages/Admin/Products/Products';
+import Categories from './pages/Admin/Categories/Categories';
+import Sizes from './pages/Admin/Sizes/Sizes';
+import Measures from './pages/Admin/Measures/Measures';
+import Genders from './pages/Admin/Genders/Genders';
+import Colors from './pages/Admin/Colors/Colors';
+import Brands from './pages/Admin/Brands/Brands';
+import Stock from './pages/Admin/Stock/Stock';
+import Clients from './pages/Admin/Clients/Clients';
+import Roles from './pages/Admin/Roles/Roles';
+import Users from './pages/Admin/Users/Users';
+import Audit from './pages/Admin/Audit/Audit';
+import Reports from './pages/Admin/Reports/Reports';
+import POSPage from './pages/Admin/POS/POSPage';
+import CashRegisterPage from './pages/Admin/CashRegisters/CashRegisterPage';
+import './App.css';
 
 function App() {
-  const { user, loading, logout } = useAuth()
-  const [showRegister, setShowRegister] = useState(false)
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
       <div className="app">
         <div className="loading">Cargando...</div>
       </div>
-    )
+    );
   }
 
-  // Si no está autenticado, mostrar Login o Register
-  if (!user) {
-    return (
-      <div className="app">
-        <header className="app-header">
-          <h1>Unikuo Platform</h1>
-          <p>Plataforma para crear tiendas online</p>
-        </header>
-        
-        <main className="app-main">
-          {showRegister ? (
-            <>
-              <Register />
-              <div className="auth-switch">
-                <p>
-                  ¿Ya tienes cuenta?{' '}
-                  <button 
-                    onClick={() => setShowRegister(false)}
-                    className="link-button"
-                  >
-                    Iniciar sesión
-                  </button>
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <Login />
-              <div className="auth-switch">
-                <p>
-                  ¿No tienes cuenta?{' '}
-                  <button 
-                    onClick={() => setShowRegister(true)}
-                    className="link-button"
-                  >
-                    Regístrate
-                  </button>
-                </p>
-              </div>
-            </>
-          )}
-        </main>
-      </div>
-    )
-  }
-
-  // Si está autenticado, mostrar el contenido principal
   return (
     <div className="app">
-      <header className="app-header">
-        <div className="header-content">
-          <div>
-            <h1>Unikuo Platform</h1>
-            <p>Plataforma para crear tiendas online</p>
-          </div>
-          <div className="user-info">
-            <span>
-              {user.first_name} {user.last_name}
-            </span>
-            <span className="user-email">{user.email}</span>
-            {user.roles && user.roles.length > 0 && (
-              <span className="user-roles">
-                {user.roles.map(r => r.name).join(', ')}
-              </span>
-            )}
-            <button onClick={logout} className="logout-button">
-              Cerrar Sesión
-            </button>
-          </div>
-        </div>
-      </header>
-      
-      <main className="app-main">
-        <TestConnection />
-      </main>
+      <Routes>
+        {/* Rutas públicas */}
+        <Route
+          path="/"
+          element={
+            user ? (
+              <Navigate to="/admin" replace />
+            ) : (
+              <div className="auth-page">
+                <header className="app-header">
+                  <h1>Unikuo Platform</h1>
+                  <p>Plataforma para crear tiendas online</p>
+                </header>
+                <main className="app-main">
+                  <Login />
+                </main>
+              </div>
+            )
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <div className="auth-page">
+              <header className="app-header">
+                <h1>Unikuo Platform</h1>
+                <p>Plataforma para crear tiendas online</p>
+              </header>
+              <main className="app-main">
+                <Register />
+              </main>
+            </div>
+          }
+        />
+
+        {/* Rutas de administración */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Dashboard />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/banners"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Banners />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Products />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/categories"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Categories />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/sizes"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Sizes />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/measures"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Measures />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/genders"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Genders />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/colors"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Colors />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/brands"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Brands />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/stock"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Stock />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/clients"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Clients />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/roles"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Roles />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Users />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/audit"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Audit />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/reports"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Reports />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/pos"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <POSPage />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/cash-registers"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <CashRegisterPage />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        {/* Rutas pendientes de implementar */}
+        {/* 
+        <Route
+          path="/admin/measures"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Measures />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/genders"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Genders />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/colors"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Colors />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/brands"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Brands />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/stock"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Stock />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/pos"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <POS />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/cash-registers"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <CashRegisters />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/reports"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Reports />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/audit"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Audit />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/clients"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Clients />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/roles"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Roles />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <AdminLayout>
+                <Users />
+              </AdminLayout>
+            </AdminRoute>
+          }
+        />
+        */}
+
+        {/* Ruta por defecto */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

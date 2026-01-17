@@ -3,10 +3,12 @@ import { useAuth } from '../../contexts/AuthContext';
 import apiService from '../../services/api';
 import './Register.css';
 
+// Use Rol from api instead of local definition if possible, but for now I will just use local interface matching api
+// Actually, let's use the local one but with Spanish keys as per backend
 interface Role {
   id: string;
-  name: string;
-  description?: string;
+  nombre: string;
+  descripcion?: string;
 }
 
 const Register = () => {
@@ -15,8 +17,8 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    first_name: '',
-    last_name: '',
+    nombre: '',
+    apellido: '',
   });
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedRoleIds, setSelectedRoleIds] = useState<string[]>([]);
@@ -27,7 +29,7 @@ const Register = () => {
   useEffect(() => {
     const loadRoles = async () => {
       try {
-        const response = await apiService.getRoles();
+        const response = await apiService.getPublicRoles();
         if (response.success && response.data?.roles) {
           setRoles(response.data.roles);
         }
@@ -77,9 +79,9 @@ const Register = () => {
       await register({
         email: formData.email,
         password: formData.password,
-        first_name: formData.first_name,
-        last_name: formData.last_name,
-        roleIds: selectedRoleIds.length > 0 ? selectedRoleIds : undefined,
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        rolesIds: selectedRoleIds.length > 0 ? selectedRoleIds : undefined,
       });
       // El contexto maneja la actualización del estado
     } catch (err: any) {
@@ -93,7 +95,7 @@ const Register = () => {
     <div className="register-container">
       <div className="register-card">
         <h2>Registrarse</h2>
-        
+
         {error && (
           <div className="register-error">
             {error}
@@ -103,12 +105,12 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="first_name">Nombre</label>
+              <label htmlFor="nombre">Nombre</label>
               <input
                 type="text"
-                id="first_name"
-                name="first_name"
-                value={formData.first_name}
+                id="nombre"
+                name="nombre"
+                value={formData.nombre}
                 onChange={handleChange}
                 required
                 disabled={loading}
@@ -117,12 +119,12 @@ const Register = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="last_name">Apellido</label>
+              <label htmlFor="apellido">Apellido</label>
               <input
                 type="text"
-                id="last_name"
-                name="last_name"
-                value={formData.last_name}
+                id="apellido"
+                name="apellido"
+                value={formData.apellido}
                 onChange={handleChange}
                 required
                 disabled={loading}
@@ -187,9 +189,9 @@ const Register = () => {
                       disabled={loading}
                     />
                     <span>
-                      {role.name}
-                      {role.description && (
-                        <small> - {role.description}</small>
+                      {role.nombre}
+                      {role.descripcion && (
+                        <small> - {role.descripcion}</small>
                       )}
                     </span>
                   </label>
@@ -198,8 +200,8 @@ const Register = () => {
             </div>
           )}
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="register-button"
             disabled={loading}
           >

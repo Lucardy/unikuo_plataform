@@ -1,6 +1,16 @@
 .app {
   min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-page {
+  min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .app-header {
@@ -13,8 +23,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 }
 
 .user-info {
@@ -22,6 +32,15 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 0.5rem;
+}
+
+/* Media queries para user-info */
+@media (min-width: 768px) {
+  .user-info {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 
 .user-email {
@@ -84,15 +103,112 @@
 .app-header h1 {
   margin: 0 0 0.5rem 0;
   color: #333;
-  font-size: 2.5rem;
+  font-size: 1.75rem;
 }
 
 .app-header p {
   margin: 0;
   color: #666;
-  font-size: 1.1rem;
+  font-size: 1rem;
+}
+
+/* Media queries para header */
+@media (min-width: 768px) {
+  .app-header h1 {
+    font-size: 2.25rem;
+  }
+
+  .app-header p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .app-header p {
+    font-size: 1.2rem;
+  }
+}
+
+.app-nav {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 20px;
+  display: flex;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.app-nav button {
+  padding: 12px 20px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.app-nav button:hover {
+  color: #3b82f6;
+  background: #f3f4f6;
+}
+
+.app-nav button.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+  background: #eff6ff;
 }
 
 .app-main {
   padding: 2rem 1rem;
+  width: 100%;
+  margin: 0;
+  min-height: calc(100vh - 200px);
+  box-sizing: border-box;
+}
+
+/* Media queries para pantallas grandes */
+@media (min-width: 768px) {
+  .app-header {
+    padding: 2rem 3rem;
+  }
+
+  .app-main {
+    padding: 3rem 2rem;
+  }
+
+  .app-nav {
+    padding: 0 3rem;
+  }
+
+  .app-nav button {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-header {
+    padding: 2.5rem 4rem;
+  }
+
+  .app-main {
+    padding: 3rem 4rem;
+  }
+
+  .app-nav {
+    padding: 0 4rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .app-main {
+    padding: 4rem 6rem;
+  }
 }

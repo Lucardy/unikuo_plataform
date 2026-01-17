@@ -8,11 +8,12 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
 /**
  * Genera un token JWT para un usuario
  */
-export const generateToken = (userId, email, roles = []) => {
+export const generarToken = (usuarioId, email, roles = [], clienteId = null) => {
   const payload = {
-    userId,
+    usuarioId,
     email,
     roles,
+    clienteId,
   };
 
   return jwt.sign(payload, JWT_SECRET, {
@@ -23,7 +24,7 @@ export const generateToken = (userId, email, roles = []) => {
 /**
  * Verifica y decodifica un token JWT
  */
-export const verifyToken = (token) => {
+export const verificarToken = (token) => {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch (error) {
@@ -34,22 +35,22 @@ export const verifyToken = (token) => {
 /**
  * Hashea una contraseña
  */
-export const hashPassword = async (password) => {
+export const hashearContrasena = async (contrasena) => {
   const saltRounds = 10;
-  return await bcrypt.hash(password, saltRounds);
+  return await bcrypt.hash(contrasena, saltRounds);
 };
 
 /**
  * Compara una contraseña con un hash
  */
-export const comparePassword = async (password, hash) => {
-  return await bcrypt.compare(password, hash);
+export const compararContrasena = async (contrasena, hash) => {
+  return await bcrypt.compare(contrasena, hash);
 };
 
 /**
  * Extrae el token del header Authorization
  */
-export const extractToken = (req) => {
+export const extraerToken = (req) => {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
     return authHeader.substring(7);

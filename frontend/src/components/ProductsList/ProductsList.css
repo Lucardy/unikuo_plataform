@@ -1,0 +1,233 @@
+.products-list {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.products-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.refresh-button {
+  padding: 0.5rem 1rem;
+  background: var(--admin-accent);
+  color: var(--admin-bg-primary);
+  border: 2px solid var(--admin-accent);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.refresh-button:hover {
+  background: var(--admin-accent-hover);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.products-loading,
+.products-empty {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+}
+
+.products-error {
+  text-align: center;
+  padding: 40px;
+  color: #dc2626;
+}
+
+.products-error button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: var(--admin-accent);
+  color: var(--admin-bg-primary);
+  border: 2px solid var(--admin-accent);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.products-error button:hover {
+  background: var(--admin-accent-hover);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Media queries para products-grid */
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 32px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 40px;
+  }
+}
+
+.product-card {
+  background: var(--admin-bg-primary);
+  border: 1px solid var(--admin-border-light);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--admin-shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-md);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  background: var(--admin-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.product-info {
+  padding: 16px;
+}
+
+.product-info h3 {
+  margin: 0 0 8px 0;
+  color: var(--admin-text-primary);
+  font-size: 18px;
+}
+
+.product-description {
+  color: var(--admin-text-secondary);
+  font-size: 14px;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.product-price {
+  margin: 12px 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--admin-text-primary);
+}
+
+.price-old {
+  text-decoration: line-through;
+  color: #9ca3af;
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.price-new {
+  color: #dc2626;
+}
+
+.product-code {
+  font-size: 12px;
+  color: var(--admin-text-secondary);
+  margin: 4px 0;
+}
+
+.product-badges {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge.status-active {
+  background: var(--admin-bg-tertiary);
+  color: var(--admin-text-primary);
+  border: 1px solid var(--admin-border-light);
+}
+
+.badge.status-inactive {
+  background: var(--admin-bg-tertiary);
+  color: var(--admin-text-secondary);
+  border: 1px solid var(--admin-border-light);
+}
+
+.badge.featured {
+  background: var(--admin-bg-tertiary);
+  color: var(--admin-text-primary);
+  border: 1px solid var(--admin-border-light);
+}
+
+.product-actions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.delete-button {
+  padding: 6px 12px;
+  background: var(--admin-accent);
+  color: var(--admin-bg-primary);
+  border: 2px solid var(--admin-accent);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.delete-button:hover {
+  background: var(--admin-accent-hover);
+  box-shadow: var(--admin-shadow-sm);
+}
