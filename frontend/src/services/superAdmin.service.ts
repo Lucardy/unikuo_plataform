@@ -24,7 +24,7 @@ export class SuperAdminService extends HttpClient {
      * Obtener todos los tenants (Solo Super Admin)
      */
     public async getTenants(): Promise<ApiResponse<Tenant[]>> {
-        const response = await this.getAuth<Tenant[]>('/admin/clientes');
+        const response = await this.getAuth<Tenant[]>('/api/admin/clientes');
         return response;
     }
 
@@ -32,7 +32,7 @@ export class SuperAdminService extends HttpClient {
      * Obtener detalle de un tenant
      */
     public async getTenantById(id: string): Promise<ApiResponse<Tenant>> {
-        const response = await this.getAuth<Tenant>(`/admin/clientes/${id}`);
+        const response = await this.getAuth<Tenant>(`/api/admin/clientes/${id}`);
         return response;
     }
 
@@ -43,7 +43,7 @@ export class SuperAdminService extends HttpClient {
         componentes_config?: any;
         activo?: boolean
     }): Promise<ApiResponse<Tenant>> {
-        const response = await this.putAuth<Tenant>(`/admin/clientes/${id}/config`, config);
+        const response = await this.putAuth<Tenant>(`/api/admin/clientes/${id}/config`, config);
         return response;
     }
 }
