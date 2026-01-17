@@ -20,8 +20,8 @@ class Cliente {
       'c.layout_config',
       'c.componentes_config',
       'c.propietario_id',
-      'c.created_at as creado_en',
-      'c.updated_at as actualizado_en'
+      'c.creado_en',
+      'c.actualizado_en'
     ];
   }
 
@@ -137,8 +137,8 @@ class Cliente {
         'layout_config',
         'componentes_config',
         'propietario_id',
-        'created_at as creado_en',
-        'updated_at as actualizado_en'
+        'creado_en',
+        'actualizado_en'
       ]);
 
     return cliente;
@@ -170,7 +170,7 @@ class Cliente {
       return await this.obtenerPorId(id);
     }
 
-    updateData.updated_at = db.fn.now();
+    updateData.actualizado_en = db.fn.now();
 
     const [cliente] = await db('clientes')
       .where('id', id)
@@ -187,8 +187,8 @@ class Cliente {
         'layout_config',
         'componentes_config',
         'propietario_id',
-        'created_at as creado_en',
-        'updated_at as actualizado_en'
+        'creado_en',
+        'actualizado_en'
       ]);
 
     return cliente || null;
@@ -202,7 +202,7 @@ class Cliente {
       .where('id', id)
       .update({
         activo: false,
-        updated_at: db.fn.now()
+        actualizado_en: db.fn.now()
       })
       .returning('id');
 
